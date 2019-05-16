@@ -1,0 +1,29 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "a node chat app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "serve": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tueloper/Node-Chat-App.git"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "Tueloper",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "express": "^4.16.4",
+    "mongodb": "^3.2.4",
+    "mongoose": "^5.5.8"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  }
+}
