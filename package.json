@@ -21,7 +21,8 @@
     "chalk": "^2.4.2",
     "express": "^4.16.4",
     "mongodb": "^3.2.4",
-    "mongoose": "^5.5.8"
+    "mongoose": "^5.5.8",
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.0"
