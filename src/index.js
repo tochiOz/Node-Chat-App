@@ -18,9 +18,21 @@ let count = 0
 //creating a socketio connection response and connection
 io.on('connection', (socket) => {
     console.log(chalk.red('New WebSocket Connection'))
-
+    socket.emit('sendMessage', 'Welcome!')
+    
+    socket.broadcast.emit('sendMessage', 'A new user has joined')
+    
     socket.on('message', (inputValue) => {
         io.emit('sendMessage', inputValue )
+    })
+
+    socket.on('sendLocation', (coords) => {
+        io.emit('sendMessage', `https://google.com/maps?q=${coords.laititude},${coords.longitude}`)
+    })
+
+    //when socket get disconnected
+    socket.on('disconnect', () => {
+        io.emit('sendMessage', 'A user has left the chat')
     })
 })
 
