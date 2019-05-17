@@ -19,6 +19,10 @@ getLocation.addEventListener('click', () => {
       socket.emit('sendLocation', {
           laititude: position.coords.latitude,
           longitude: position.coords.longitude
+      }, () => {
+
+        //acknowledgement function
+        console.log('Location Shared')
       })
     })
 })
@@ -29,7 +33,15 @@ send.addEventListener('submit', (e) => {
     // console.log('Submitted')
     
     const inputValue = e.target.elements.messageInput.value
-    socket.emit( 'message', inputValue )
+    socket.emit( 'message', inputValue, (error) => {
+        //this is an acknowledgement event
+
+        if (error) {
+            return console.log(error)
+        }
+
+        console.log('Message was Delivered')
+    })
 })
 
 
