@@ -1,15 +1,49 @@
 //connecting to the io server
 const socket = io()
+
+//Get Elements
 const increment = document.getElementById('increment')
 const display = document.getElementById('display')
-const send = document.getElementById('send')
+const messageForm = document.getElementById('messageForm')
 const getLocation = document.getElementById('location')
+const messageInput = document.getElementById('messageInput')
+const messageButton = document.getElementById('messageButton')
 
-socket.on('sendMessage', (inputValue) => {
-    console.log(inputValue)
+//Templates
+const messageTemplate = document.getElementById('message-template').innerHTML
+const url_template = document.getElementById('url-template').innerHTML
+ 
+socket.on('sendMessage', ( chat_messages ) => {
+    
+    console.log(chat_messages)
+
+    //rending messages
+    const html = Mustache.render(messageTemplate, {
+        chat_messages : chat_messages.text,
+        time: moment(chat_messages.createdAt).format('h:mm a')
+    })
+
+    display.insertAdjacentHTML( 'beforeend', html )
+
+})
+
+//Recieving location url
+socket.on('locationMessage', (url) => {
+    console.log(url)
+
+    const urlHtml = Mustache.render(url_template, {
+        url : url,
+        time: moment(url.createdAt).format('h:mm a')
+    })
+
+    display.insertAdjacentHTML( 'beforeend', urlHtml )
 })
 
 getLocation.addEventListener('click', () => {
+
+    //disable location button
+    getLocation.setAttribute( 'disabled', 'disabled')
+
     if ( !navigator.geolocation ) {
         return alert('Geolocation is not Supported by your Browser')
     }
@@ -19,17 +53,39 @@ getLocation.addEventListener('click', () => {
       socket.emit('sendLocation', {
           laititude: position.coords.latitude,
           longitude: position.coords.longitude
+      }, () => {
+
+        //enable the location button
+        getLocation.removeAttribute('disabled')
+        //acknowledgement function
+        console.log('Location Shared')
       })
     })
 })
 
 //this is for sending messages 
-send.addEventListener('submit', (e) => {
+messageForm.addEventListener('submit', (e) => {
     e.preventDefault()
     // console.log('Submitted')
     
-    const inputValue = e.target.elements.messageInput.value
-    socket.emit( 'message', inputValue )
+    //disable the message button to make sure the message is sent before another message is sent
+    messageButton.setAttribute('disabled', 'disabled')
+
+    const chat_messages = e.target.elements.messageInput.value
+    socket.emit( 'message', chat_messages, (error) => {
+        //this is an acknowledgement event
+
+        //enabling the button after chat_messages is sent
+        messageButton.removeAttribute('disabled')
+        messageInput.value = ''
+        messageInput.focus()
+
+        if (error) {
+            return console.log(error)
+        }
+
+        console.log('Message was Delivered')
+    })
 })
 
 

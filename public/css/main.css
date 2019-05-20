@@ -1,7 +1,8 @@
-#display 
+/* #display 
 {
     width: 90%;
     height: 50vh;
     border: 2px ridge rgb(240, 241, 241);
     overflow-y: auto;
-}
+    padding: 5px;
+} */
