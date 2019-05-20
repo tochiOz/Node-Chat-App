@@ -1,14 +1,42 @@
 //connecting to the io server
 const socket = io()
+
+//Get Elements
 const increment = document.getElementById('increment')
 const display = document.getElementById('display')
 const messageForm = document.getElementById('messageForm')
 const getLocation = document.getElementById('location')
 const messageInput = document.getElementById('messageInput')
 const messageButton = document.getElementById('messageButton')
+
+//Templates
+const messageTemplate = document.getElementById('message-template').innerHTML
+const url_template = document.getElementById('url-template').innerHTML
  
-socket.on('sendMessage', (inputValue) => {
-    console.log(inputValue)
+socket.on('sendMessage', ( chat_messages ) => {
+    
+    console.log(chat_messages)
+
+    //rending messages
+    const html = Mustache.render(messageTemplate, {
+        chat_messages : chat_messages.text,
+        time: moment(chat_messages.createdAt).format('h:mm a')
+    })
+
+    display.insertAdjacentHTML( 'beforeend', html )
+
+})
+
+//Recieving location url
+socket.on('locationMessage', (url) => {
+    console.log(url)
+
+    const urlHtml = Mustache.render(url_template, {
+        url : url,
+        time: moment(url.createdAt).format('h:mm a')
+    })
+
+    display.insertAdjacentHTML( 'beforeend', urlHtml )
 })
 
 getLocation.addEventListener('click', () => {
@@ -43,11 +71,11 @@ messageForm.addEventListener('submit', (e) => {
     //disable the message button to make sure the message is sent before another message is sent
     messageButton.setAttribute('disabled', 'disabled')
 
-    const inputValue = e.target.elements.messageInput.value
-    socket.emit( 'message', inputValue, (error) => {
+    const chat_messages = e.target.elements.messageInput.value
+    socket.emit( 'message', chat_messages, (error) => {
         //this is an acknowledgement event
 
-        //enabling the button after inputValue is sent
+        //enabling the button after chat_messages is sent
         messageButton.removeAttribute('disabled')
         messageInput.value = ''
         messageInput.focus()
