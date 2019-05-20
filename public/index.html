@@ -7,69 +7,46 @@
     <link rel="shortcut icon" href="images/icons8-collaboration-64.png" type="image/x-icon">
     <title>Chat App</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/main.css">
-    <!-- <link rel="stylesheet" href="css/styles.min.css" > -->
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="col-xs-12">
-            <video autoplay muted loop id="myVideo" class="video">
-                <source src="images/raininglettersBW.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
+        <div class="container register">
+            <div class="row">
+                <div class="col-md-3 register-left">
+                    <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
+                    <h3>Welcome</h3>
+                    <p>You are 30 seconds away from Joining The <strong>Chat!!!......</strong></p>
+                </div>
 
-    <div class="container content">
-        <div class="col-xs-12 flex-container">
-            <div class="col-xs-4 empty"> CHAT APP</div>
-            <div class="col-xs-8 feature compose" >
-                <div id="display" class="feature-display" ></div>
-                <form class=" feature-form form-group" id="messageForm">
-                    <input type="text" id="messageInput" name="messageInput" class="form-control" placeholder="Type Message">
-                    <button class="btn btn-danger" type="submit" id="messageButton"><i class="fa fa-paper-plane" class="send"></i></button>
-                    <button class="btn btn-warning" id="location" >Get Location</button>
-                </form>
+                <div class="col-md-9 register-right">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <h3 class="register-heading">Join The Chat</h3>
+                            <div class="row register-form">
+                                <form class="col-md-12 col-xs-12" action="/chat.html">
+                                    <div class="form-group">
+                                        <label for="name">Display Name:</label>
+                                        <input type="text" class="form-control" placeholder="Display Name *" value="" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="room">Room:</label>
+                                        <input type="text" class="form-control" placeholder="Room *" value="" />
+                                    </div>
+                                    <button class="btn btn-danger">Join Chat</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-        
 
-    
 
-     <!-- Templating setting setup -->
-    <script id="message-template" type="text/html">
-        <div class = "message">
-            <p>
-                <span class = "message__name">Some User Name</span>
-                <span class = "message__meta"><em> {{ time }} </em></span>
-            </p>
-            <p class="chat">{{ chat_messages }}</p>
-        </div>
-    </script>
-
-    <!-- Location Template -->
-    <script id="url-template" type="text/html">
-        <div class="message">
-            <p>
-                <span class = "message__name">Some User Name:</span>
-                <span class = "message__meta"><em> {{ time }} </em></span>
-            </p>
-            <p> <a href="{{ url }}" target="_blank" style="color: #bcbcbc; ">My Location</a></p>
-        </div>
-    </script>
-
-     <!-- chat libraries to display chat -->
-     <!-- Mustache Library installed through CDN -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
 
     <!-- oTHER Scripts installed -->
     <script src="js/jquery-2.2.4.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="./js/chat.js"></script>
 </body>
 </html>
