@@ -24,7 +24,8 @@ socket.on('sendMessage', ( chat_messages ) => {
 
     //rending messages
     const html = Mustache.render(messageTemplate, {
-        chat_messages : chat_messages.text,
+        username: chat_messages.username,
+        chat_message: chat_messages.text,
         time: moment(chat_messages.createdAt).format('h:mm a')
     })
 
@@ -37,6 +38,7 @@ socket.on('locationMessage', (url) => {
     console.log(url)
 
     const urlHtml = Mustache.render(url_template, {
+        username: url.username,
         url : url,
         time: moment(url.createdAt).format('h:mm a')
     })
