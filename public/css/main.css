@@ -14,11 +14,11 @@ body {
 
 .content {
     position: fixed;
-    z-index: 10;
+    z-index: 100;
     top: 30px;
     left: 50px;
     right: 50px;
-    background: rgba(40, 35, 48, 0.5);
+    background: rgba(204, 0, 0, 0.5);
     color: #181717;
     width: 100%;
     padding: 20px;
@@ -59,7 +59,7 @@ body {
 
 .feature-display {
     height: 93%;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .feature-form  {
