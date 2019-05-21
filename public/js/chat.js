@@ -12,6 +12,11 @@ const messageButton = document.getElementById('messageButton')
 //Templates
 const messageTemplate = document.getElementById('message-template').innerHTML
 const url_template = document.getElementById('url-template').innerHTML
+
+//options
+//using the qs template - query string
+const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true }) //this helps to remove the "?" from the query string
+
  
 socket.on('sendMessage', ( chat_messages ) => {
     
@@ -91,3 +96,6 @@ messageForm.addEventListener('submit', (e) => {
 
 //so socket.emit() creates the transfer and emits an event
 //and for every emit there is always an event listener using socket.on()
+
+//emit the connected user and room access
+socket.emit( 'join', { username, room })

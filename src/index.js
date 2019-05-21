@@ -21,9 +21,6 @@ let count = 0
 io.on('connection', (socket) => {
     
     console.log(chalk.red('New WebSocket Connection'))
-    socket.emit('sendMessage', generateMessage('Welcome!'))
-    
-    socket.broadcast.emit('sendMessage', generateMessage('A new user has joined'))
     
     socket.on('message', (chat_messages, callback) => {
 
@@ -35,9 +32,20 @@ io.on('connection', (socket) => {
             return callback('Profanity is not allowed')    
         }
 
-
         io.emit('sendMessage', generateMessage(chat_messages) )
         callback()
+    })
+
+    //listening the join room 
+    socket.on( 'join', ({ username, room }) => {
+        socket.join( room )
+
+        //welcome message
+        socket.emit('sendMessage', generateMessage('Welcome!'))
+        socket.broadcast.to(room).emit('sendMessage', generateMessage(`${username} has joined!!!...`))
+
+        //we will be using "to" method to communicate with the room members only
+
     })
 
     socket.on('sendLocation', (coords, callback) => {
