@@ -14,7 +14,7 @@ body {
 
 .content {
     position: fixed;
-    z-index: 10;
+    z-index: 100;
     top: 30px;
     left: 50px;
     right: 50px;

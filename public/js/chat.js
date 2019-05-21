@@ -98,4 +98,9 @@ messageForm.addEventListener('submit', (e) => {
 //and for every emit there is always an event listener using socket.on()
 
 //emit the connected user and room access
-socket.emit( 'join', { username, room })
+socket.emit( 'join', { username, room }, (error) => {
+   if (error) {
+       alert(error)
+       location.href = '/'
+   }
+})
