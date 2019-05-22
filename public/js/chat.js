@@ -63,13 +63,13 @@ socket.on('sendMessage', ( chat_messages ) => {
 })
 
 //Recieving location url
-socket.on('locationMessage', (url) => {
-    console.log(url)
+socket.on('locationMessage', (location) => {
+    console.log(location)
 
     const urlHtml = Mustache.render(url_template, {
-        username: url.username,
-        url : url,
-        time: moment(url.createdAt).format('h:mm a')
+        username: location.username,
+        url: location.url,
+        time: moment(location.createdAt).format('h:mm a')
     })
 
     display.insertAdjacentHTML( 'beforeend', urlHtml )
@@ -91,10 +91,11 @@ getLocation.addEventListener('click', () => {
           laititude: position.coords.latitude,
           longitude: position.coords.longitude
       }, () => {
-
+        // console.log(laititude)
         //enable the location button
         getLocation.removeAttribute('disabled')
         //acknowledgement function
+        
         console.log('Location Shared')
       })
     })

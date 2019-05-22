@@ -6,13 +6,15 @@ const socketio = require('socket.io')
 const Filter = require('bad-words')
 const { generateMessage, generatelocationMessage } = require('./utils/message')
 const { addUser, getUser, getUsersInRoom, removeUser } = require('./utils/user')
+const dotenv = require('dotenv')
 
+dotenv.config()
 const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
 
 
-const port = process.env.PORT || 9000
+const port = process.env.PORT 
 const publicPath = path.join(__dirname, '../public')
 
 app.use(express.static(publicPath))
@@ -68,7 +70,7 @@ io.on('connection', (socket) => {
     //sending location
     socket.on('sendLocation', (coords, callback) => {
         const user = getUser(socket.id)
-        io.to(user.room).emit('locationMessage', generatelocationMessage( user.username, `https://google.com/maps?q=${coords.laititude},${coords.longitude}`))
+        io.to(user.room).emit('locationMessage', generatelocationMessage( user.username, `https://google.com/maps?q=${coords.laititude},${coords.longitude}`));
 
         //acknowledgement callback
         callback()
