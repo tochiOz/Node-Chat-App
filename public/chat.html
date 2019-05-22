@@ -8,7 +8,6 @@
     <title>Chat App</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/main.css">
-    <!-- <link rel="stylesheet" href="css/styles.min.css" > -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 </head>
 <body>
@@ -22,7 +21,7 @@
 
     <div class="container content">
         <div class="col-xs-12 flex-container">
-            <div class="col-xs-6 col-md-4 empty" id="group_rooms"> CHAT APP</div>
+            <div class="col-xs-6 col-md-4 empty" id="group_rooms"> </div>
             <div class="col-xs-6 col-md-8 feature compose" >
                 <div id="display" class="feature-display" ></div>
                 <form class=" feature-form form-group" id="messageForm">
@@ -65,6 +64,24 @@
             </p>
             <p> <a href="{{ url }}" target="_blank" style="color: #bcbcbc; ">My Location</a></p>
         </div>
+    </script>
+
+    <!-- users rendering template -->
+    <script id="sidebar" type="text/html">
+        <h2 class="room-title">{{room}}</h2>
+        <h3 class="list-title">Users</h3>
+        <ul class="users">
+            {{#users}}
+                <li class="list-items">
+                    <div class="dots">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div class="user">{{username}}</div>
+                </li>
+            {{/users}}
+        </ul>
     </script>
 
      <!-- chat libraries to display chat -->
