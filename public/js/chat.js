@@ -19,10 +19,37 @@ const sidebar = document.getElementById('sidebar').innerHTML
 //using the qs template - query string
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true }) //this helps to remove the "?" from the query string
 
+//autoscrolling of chat pages to view latest chat
+const autoscroll = () => {
+
+    //getting the element 
+    const $newMessage = display.lastElementChild
+
+    //Getting the height of the element in number
+    const $newMessageStyle = getComputedStyle($newMessage)
+    const $newMessageMargin = parseInt($newMessageStyle.marginBottom)
+    const $newMessageHeight = $newMessage.offsetHeight + $newMessageMargin
+
+    //visible height
+    const visibleHeight = display.offsetHeight
+
+    //Height of the container
+    const contentHeight = display.scrollHeight
+
+    //how far the scrolll
+    const scrollingScroll = display.scrollTop + visibleHeight
+
+    //the condition to make the autoscroll
+    if(contentHeight - $newMessageHeight <= scrollingScroll ) {
+        display.scrollTop = display.scrollHeight
+    }
+
+    // console.log($newMessageHeight)
+}
  
 socket.on('sendMessage', ( chat_messages ) => {
     
-    console.log(chat_messages)
+    // console.log(chat_messages)
 
     //rending messages
     const html = Mustache.render(messageTemplate, {
@@ -32,7 +59,7 @@ socket.on('sendMessage', ( chat_messages ) => {
     })
 
     display.insertAdjacentHTML( 'beforeend', html )
-
+    autoscroll()
 })
 
 //Recieving location url
@@ -46,6 +73,7 @@ socket.on('locationMessage', (url) => {
     })
 
     display.insertAdjacentHTML( 'beforeend', urlHtml )
+    autoscroll()
 })
 
 getLocation.addEventListener('click', () => {
