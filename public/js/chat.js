@@ -12,6 +12,8 @@ const messageButton = document.getElementById('messageButton')
 //Templates
 const messageTemplate = document.getElementById('message-template').innerHTML
 const url_template = document.getElementById('url-template').innerHTML
+const sidebar = document.getElementById('sidebar').innerHTML
+
 
 //options
 //using the qs template - query string
@@ -24,7 +26,8 @@ socket.on('sendMessage', ( chat_messages ) => {
 
     //rending messages
     const html = Mustache.render(messageTemplate, {
-        chat_messages : chat_messages.text,
+        username: chat_messages.username,
+        chat_message: chat_messages.text,
         time: moment(chat_messages.createdAt).format('h:mm a')
     })
 
@@ -37,6 +40,7 @@ socket.on('locationMessage', (url) => {
     console.log(url)
 
     const urlHtml = Mustache.render(url_template, {
+        username: url.username,
         url : url,
         time: moment(url.createdAt).format('h:mm a')
     })
@@ -93,7 +97,6 @@ messageForm.addEventListener('submit', (e) => {
     })
 })
 
-
 //so socket.emit() creates the transfer and emits an event
 //and for every emit there is always an event listener using socket.on()
 
@@ -103,4 +106,17 @@ socket.emit( 'join', { username, room }, (error) => {
        alert(error)
        location.href = '/'
    }
+})
+
+//This is used to rendering user list
+socket.on( 'roomData', ({ room, users }) => {
+
+    const sidebarDisplay = Mustache.render( sidebar, {
+        room,
+        users
+    })
+
+    setTimeout(() => {
+        document.getElementById('group_rooms').innerHTML = sidebarDisplay
+    }, 1000)
 })

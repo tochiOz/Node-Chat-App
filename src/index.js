@@ -36,8 +36,13 @@ io.on('connection', (socket) => {
         socket.join(user.room)
 
         //welcome message
-        socket.emit('sendMessage', generateMessage('Welcome!'))
-        socket.broadcast.to(user.room).emit('sendMessage', generateMessage(`${user.username} has joined!!!...`))
+        socket.emit('sendMessage', generateMessage('Admin', 'Welcome!'))
+        socket.broadcast.to(user.room).emit('sendMessage', generateMessage('Admin', `${user.username} has joined!!!...`))
+        
+        io.to(user.room).emit( 'roomData', {
+            room: user.room,
+            users: getUsersInRoom(user.room)
+        })
 
         callback()
         //we will be using "to" method to communicate with the room members only
@@ -47,6 +52,7 @@ io.on('connection', (socket) => {
     socket.on('message', (chat_messages, callback) => {
 
         const user = getUser( socket.id)
+
         //incases of bad languages between users in the forum
         const filer = new Filter()
 
@@ -55,14 +61,14 @@ io.on('connection', (socket) => {
             return callback('Profanity is not allowed')    
         }
 
-        io.to(user.room).emit('sendMessage', generateMessage(chat_messages) )
+        io.to(user.room).emit('sendMessage', generateMessage(user.username, chat_messages) )
         callback()
     })
 
     //sending location
     socket.on('sendLocation', (coords, callback) => {
         const user = getUser(socket.id)
-        io.to(user.room).emit('locationMessage', generatelocationMessage(`https://google.com/maps?q=${coords.laititude},${coords.longitude}`))
+        io.to(user.room).emit('locationMessage', generatelocationMessage( user.username, `https://google.com/maps?q=${coords.laititude},${coords.longitude}`))
 
         //acknowledgement callback
         callback()
@@ -76,6 +82,10 @@ io.on('connection', (socket) => {
 
         if (user) {
             io.to(user.room).emit('sendMessage', generateMessage(`${user.username} has left the chat`))   
+            io.to(user.room).emit( 'roomData', {
+                room: user.room,
+                users: getUsersInRoom(user.room)
+            })
         }
     })
 })
