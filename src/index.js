@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
             users: getUsersInRoom(user.room)
         })
 
-        callback()
+        // callback()
         //we will be using "to" method to communicate with the room members only
 
     })
@@ -64,7 +64,7 @@ io.on('connection', (socket) => {
         }
 
         io.to(user.room).emit('sendMessage', generateMessage(user.username, chat_messages) )
-        callback()
+        // callback()
     })
 
     //sending location
